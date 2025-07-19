@@ -739,6 +739,16 @@
     "__prefab": {
       "__id__": 35
     },
+    "minBoundary": {
+      "__type__": "cc.Vec2",
+      "x": -250,
+      "y": -390
+    },
+    "maxBoundary": {
+      "__type__": "cc.Vec2",
+      "x": 250,
+      "y": 360
+    },
     "_id": ""
   },
   {
