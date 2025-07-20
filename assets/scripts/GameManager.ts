@@ -1,7 +1,10 @@
 import {
     _decorator,
     BoxCollider2D,
+    CCInteger,
+    CCString,
     Component,
+    director,
     find,
     instantiate,
     Label,
@@ -15,7 +18,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("GameManager")
 export class GameManager extends Component {
-    @property([String])
+    @property([CCString])
     workNameArray: string[] = [];
 
     @property(Prefab)
@@ -24,7 +27,7 @@ export class GameManager extends Component {
     @property(Node)
     TimerLabel: Node = null;
 
-    @property(Number)
+    @property(CCInteger)
     public totalTime: number = 8;
 
     private currentTime: number = this.totalTime;
@@ -32,7 +35,7 @@ export class GameManager extends Component {
     // 使用过的索引
     private usedIndes: Set<number> = new Set<number>();
 
-    private static _instance: GameManager = null;
+    private static _instance: GameManager = new GameManager();
 
     public static get instance(): GameManager {
         return this._instance;
@@ -40,11 +43,11 @@ export class GameManager extends Component {
 
     protected onLoad(): void {
         if (GameManager._instance == null) {
-            GameManager._instance = this;
+            GameManager._instance = new GameManager();
+            console.log("GameManager is created");
         } else {
+            GameManager._instance = this;
             console.log("GameManager is already existed");
-            this.destroy();
-            return;
         }
     }
 
@@ -88,5 +91,8 @@ export class GameManager extends Component {
         WorkLabelNode.parent = find("Canvas/WorkLabelList");
         // 设置标签节点的位置为随机位置和固定高度670
         WorkLabelNode.setPosition(randomRange(-320, 320), 670);
+    }
+    reloadGame() {
+        director.loadScene(director.getScene().name);
     }
 }

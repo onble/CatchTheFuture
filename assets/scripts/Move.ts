@@ -13,6 +13,9 @@ export class Move extends Component {
     @property(Prefab)
     FutureWorkLabel: Prefab = null;
 
+    @property(Node)
+    restartPanel: Node = null;
+
     private _offset: Vec2 = new Vec2();
     private _isDragging: boolean = false;
     protected onLoad(): void {
@@ -27,6 +30,9 @@ export class Move extends Component {
             let t2 = tween(this.node).to(2, { position: new Vec3(0, 170, 0) });
             t1.call(() => {
                 t2.start();
+                this.scheduleOnce(() => {
+                    this.restartPanel.active = true;
+                }, 2);
             }).start();
         }, GameManager.instance.totalTime);
     }
