@@ -21,6 +21,14 @@ export class GameManager extends Component {
     @property(Prefab)
     workLabelPrefab: Prefab = null;
 
+    @property(Node)
+    TimerLabel: Node = null;
+
+    @property(Number)
+    public totalTime: number = 8;
+
+    private currentTime: number = this.totalTime;
+
     // 使用过的索引
     private usedIndes: Set<number> = new Set<number>();
 
@@ -42,6 +50,16 @@ export class GameManager extends Component {
 
     protected start(): void {
         this.schedule(this.instantiateAndReplaceLabelContent, 0.5);
+    }
+
+    protected update(dt: number): void {
+        if (this.currentTime > 0) {
+            this.currentTime -= dt;
+        } else {
+            this.currentTime = 0;
+            console.log("游戏结束");
+        }
+        this.TimerLabel.getComponent(Label).string = this.currentTime.toFixed(2);
     }
 
     /**

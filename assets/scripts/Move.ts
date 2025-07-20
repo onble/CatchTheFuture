@@ -1,4 +1,5 @@
 import { _decorator, Component, EventTouch, instantiate, Node, Prefab, tween, Vec2, Vec3 } from "cc";
+import { GameManager } from "./GameManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("Move")
@@ -23,8 +24,11 @@ export class Move extends Component {
             let FutureWorkLabelNode = instantiate(this.FutureWorkLabel);
             FutureWorkLabelNode.setParent(this.node);
             let t1 = tween(FutureWorkLabelNode).to(1.5, { position: new Vec3(0, 100, 0) }, { easing: "backInOut" });
-            t1.start();
-        }, 1);
+            let t2 = tween(this.node).to(2, { position: new Vec3(0, 170, 0) });
+            t1.call(() => {
+                t2.start();
+            }).start();
+        }, GameManager.instance.totalTime);
     }
     protected onDestroy(): void {
         this.removeTouch();
