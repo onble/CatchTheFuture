@@ -211,7 +211,7 @@
       "__id__": 8
     },
     "enabledContactListener": false,
-    "bullet": false,
+    "bullet": true,
     "awakeOnLoad": true,
     "_group": 1,
     "_type": 1,
@@ -421,7 +421,7 @@
       "__id__": 18
     },
     "enabledContactListener": false,
-    "bullet": false,
+    "bullet": true,
     "awakeOnLoad": true,
     "_group": 1,
     "_type": 1,
@@ -631,7 +631,7 @@
       "__id__": 28
     },
     "enabledContactListener": false,
-    "bullet": false,
+    "bullet": true,
     "awakeOnLoad": true,
     "_group": 1,
     "_type": 1,

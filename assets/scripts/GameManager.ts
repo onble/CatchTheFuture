@@ -1,4 +1,16 @@
-import { _decorator, Component, find, instantiate, Label, Node, Prefab, randomRange, randomRangeInt } from "cc";
+import {
+    _decorator,
+    BoxCollider2D,
+    Component,
+    find,
+    instantiate,
+    Label,
+    Node,
+    Prefab,
+    randomRange,
+    randomRangeInt,
+    UITransform,
+} from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("GameManager")
@@ -14,7 +26,7 @@ export class GameManager extends Component {
 
     private static _instance: GameManager = null;
 
-    public static get instance() {
+    public static get instance(): GameManager {
         return this._instance;
     }
 
@@ -23,7 +35,7 @@ export class GameManager extends Component {
             GameManager._instance = this;
         } else {
             console.log("GameManager is already existed");
-            this.node.destroy();
+            this.destroy();
             return;
         }
     }
@@ -36,13 +48,24 @@ export class GameManager extends Component {
      * 实例化并替换label内容
      */
     private instantiateAndReplaceLabelContent() {
+        if (this.workNameArray.length === this.usedIndes.size) {
+            this.unschedule(this.instantiateAndReplaceLabelContent);
+            return;
+        }
         let randomIndex: number;
-        randomIndex = randomRangeInt(0, this.workNameArray.length);
+        do {
+            // 生成随机索引
+            randomIndex = randomRangeInt(0, this.workNameArray.length);
+        } while (this.usedIndes.has(randomIndex));
         // 标记此索引已被使用
         this.usedIndes.add(randomIndex);
         let WorkLabelNode = instantiate(this.workLabelPrefab);
         // 设置标签的为本内容为随机选中的工作名称
         WorkLabelNode.getComponent(Label).string = this.workNameArray[randomIndex];
+        this.scheduleOnce(() => {
+            WorkLabelNode.getComponent(BoxCollider2D).size.set(WorkLabelNode.getComponent(UITransform).contentSize);
+            WorkLabelNode.getComponent(BoxCollider2D).apply();
+        }, 0);
         // 将标签节点设置到"Canvas/WorkLabelList"下
         WorkLabelNode.parent = find("Canvas/WorkLabelList");
         // 设置标签节点的位置为随机位置和固定高度670
