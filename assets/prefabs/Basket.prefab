@@ -749,6 +749,10 @@
       "x": 250,
       "y": 360
     },
+    "FutureWorkLabel": {
+      "__uuid__": "92ebac79-a23d-4f62-9a7d-631e2f5cb13d",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": ""
   },
   {

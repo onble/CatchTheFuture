@@ -1,4 +1,4 @@
-import { _decorator, Component, EventTouch, Node, Vec2, Vec3 } from "cc";
+import { _decorator, Component, EventTouch, instantiate, Node, Prefab, tween, Vec2, Vec3 } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("Move")
@@ -9,10 +9,22 @@ export class Move extends Component {
     @property(Vec2)
     maxBoundary: Vec2 = new Vec2();
 
+    @property(Prefab)
+    FutureWorkLabel: Prefab = null;
+
     private _offset: Vec2 = new Vec2();
     private _isDragging: boolean = false;
     protected onLoad(): void {
         this.addTouch();
+    }
+    protected start(): void {
+        this.scheduleOnce(() => {
+            this.removeTouch();
+            let FutureWorkLabelNode = instantiate(this.FutureWorkLabel);
+            FutureWorkLabelNode.setParent(this.node);
+            let t1 = tween(FutureWorkLabelNode).to(1.5, { position: new Vec3(0, 100, 0) }, { easing: "backInOut" });
+            t1.start();
+        }, 1);
     }
     protected onDestroy(): void {
         this.removeTouch();
